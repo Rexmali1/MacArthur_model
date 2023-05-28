@@ -1,3 +1,4 @@
+// Library
 #include <iostream>
 #include <cmath>
 #include <random>
@@ -17,6 +18,7 @@ void printArray(double** arr, int row, int col)
     cout << endl;
 }
 
+// This function multiply two matrix
 double** Multiply_Matrices(double** M1, int row_1, int col_1,
                            double** M2, int row_2, int col_2)
 {
@@ -41,7 +43,7 @@ double** Multiply_Matrices(double** M1, int row_1, int col_1,
     return arr;
 }
 
-// function to initialize and returning array in a Guassian distribution
+// Function to initialize and returning array in a Guassian distribution
 double** Gaussian(double c, double s_c, int row, int col)
 {
     double** arr = new double*[row];
@@ -60,7 +62,7 @@ double** Gaussian(double c, double s_c, int row, int col)
     return arr;
 }
 
-// function to initialize and returning array in a uniform distribution
+// Function to initialize and returning array in a uniform distribution
 double** Random(double min, double max, int row, int col)
 {
     double** arr = new double*[row];
@@ -79,6 +81,7 @@ double** Random(double min, double max, int row, int col)
     return arr;
 }
 
+// This function transpose a matrix
 double** Transpose(double** M1, int row, int col)
 {
     double** arr = new double*[col];
@@ -94,7 +97,7 @@ double** Transpose(double** M1, int row, int col)
     return arr;
 }
 
-// function to initialize and returning array in a uniform distribution
+// Function to initialize and returning array in a uniform distribution
 double** fi(double** ni, double** Ki, double** ru, double** mi, double** cu,
             double t, double fac, int N, int M)
 {
@@ -126,7 +129,7 @@ double** fi(double** ni, double** Ki, double** ru, double** mi, double** cu,
     return arr;
 }
 
-// function to initialize and returning array in a uniform distribution
+// Function to initialize and returning array in a uniform distribution
 double** fu(double** ni, double** ru, double** Ku, double** ku, double** ci,
             double au, double t, double fac, int N, int M)
 {
@@ -166,22 +169,22 @@ int main()
 
 
 
-    //Establish parameters for the simulation
-    const int N = 500;
-    v    = 10;
-    const int M = N/v ;
-    c    = 1.0;
-    s_c  = sqrt(1.0);
-    k    = 5.0;
-    s_k  = 0.0;
-    m    = 1.0;
-    au   = 1.0;
-
+    // Establish parameters for the simulation
+    const int N = 500;   // Number of species
+    v    = 10;           // Fracction between species and resources 
+    const int M = N/v ;  // Number of resources
+    c    = 1.0;          // Mean of relationship between species and resources 
+    s_c  = sqrt(1.0);    // Standar desviation of relationship between species and resources 
+    k    = 5.0;          // Mean of carrying capacity of resources
+    s_k  = 0.0;          // Standar desviation of carrying capacity of resources
+    m    = 1.0;          // Death rate of resources
+    au   = 1.0;          // Growing rate of resources
+                         
     //Establish  parameters for time
-    t    = 0.0;
-    tsim = 500;
-    h    = 0.001;
-    ite  = tsim/h;
+    t    = 0.0;          // Initialice time
+    tsim = 500;          // Maximum time of simulation
+    h    = 0.001;        // Time step size
+    ite  = tsim/h;       // Number of iterations
 
 
     double** ru;  double** ku;
