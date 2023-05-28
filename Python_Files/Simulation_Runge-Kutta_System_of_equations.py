@@ -25,49 +25,35 @@ elif os.name == "ce" or os.name == "nt" or os.name == "dos":
 #print('\n'.join([''.join(['{:4}'.format(item) for item in row]) for row in M])) print a matrix M 
 
 
-def Assign_values_Gauss(M,mu, sigma): #This function assigns values to all elements of an matrix
-                                    #with random values with mean mu and deviation standard sigma
+def Assign_values_Gauss(M,mu, sigma): # This function assigns values to all elements of an matrix
+                                      # with random values with mean mu and deviation standard sigma
   for i in range(len(M[0])):
     for j in range(len(M)):
       M[j,i]=gauss(mu, sigma)
   return M
  
-def fi(ni,ru,mi,cu,t):
-  fit = cu.dot(ru)-1
-  fit = fit*ni
-  return fit
-
-def fu(ni,ru,au,ku,ci,t):
+def fi(ni,ru,mi,cu,t):      # This function return the time derivative of size population
+  fit = cu.dot(ru)-1        
+  fit = fit*ni              
+  return fit                
+                            
+def fu(ni,ru,au,ku,ci,t):   # This function return the time derivative of resources levels
   fut = (ku-ru)-ci.dot(ni)
   fut = fut*ru
   return fut
 
-""" 
-#Set the number of species N and the number of resources M
-N=int(input ("Introduce the number of species that you want to Simulate: "))
-M=int(input("Introduce the number of resources implicated: "))
-print("\n")
-
-c=float(input("Please introduce the parameters c (c/N is the mean of the coficients c[i][u]): "))
-s_c=float(input("Please introduce the parameters s_c ((s_c)^2/N is the variance of the coficients c[i][u]): "))
-print("\n")
-
-k=float(input("Please introduce the parameters k (k is the mean of the coficients k[u]): "))
-s_k=float(input("Please introduce the parameters s_k ((s_k)^2 is the variance of the coficients k[u]): "))
-print("\n")
-"""
 v=0.3
 for z in range(9):
     #Set the number of species N and the number of resources M, an the heterogenity values
-    v = v+0.1 
-    N = int(500)
-    M = int(N/v)
-    c = 1
-    s_c = (0.1)**(1/2)
-    k = 20.0
-    s_k = 0
+    v    = v + 0.1       # Fraction between Species and resources
+    N    = int(500)      # Number of species
+    M    = int(N/v)      # Number of resources
+    c    = 1             # Mean of relationship between species and resources
+    s_c  = (0.1)**(1/2)  # Standar desviation of relationship between species and resources
+    k    = 20.0          # Mean of the carrying capacity of resources
+    s_k  = 0             # Standar desviation of the carrying capacity of resources
     time = datetime.now().strftime('%d-%m-%Y, %H;%M;%S')
-    rep = 20
+    rep  = 20            # Number of independent runs 
     
     
     phi_s=zeros(rep)
@@ -85,41 +71,33 @@ for z in range(9):
         Assign_values_Gauss(cu, c/N, s_c/sqrt(N))
         ci=cu.transpose() 
         Assign_values_Gauss(ku, k, s_k)
-    
-        """
-        Assign_values_Gauss(mi, m, s_m)
-        saves_mi = pd.DataFrame(ku)
-        saves_mi.to_csv('MacArthur Runge–Kutta mi '+'('+str(time)+').csv', index=False)
-        """
-       
-        h=0.001 #Size of the intervalue to evaluate
-        tsim=400 #time of simulation on days
-        ite=int(tsim/h)
-        #ti=linspace(0, tsim, num=ite+1)
-        t=0
+
+        # Time simulation parameters
+        h    = 0.001 #Size of the intervalue to evaluate
+        tsim = 400 #time of simulation on days
+        ite  = int(tsim/h)
+        t    = 0
     
         #initial=int(input("Introduce a validate case: \n1) Random initial conditions \n2) Equal initial conditions \n"))
         #print("\n")
+      
         initial=2
     
         while initial!=1 and initial!=2:
           initial=int(input("Invalidate case, please introduce a validate case: \n1) Random initial conditions \n2) Equal initial conditions \n"))
           print("\n")
-    
+        
+        #Random initial conditions
         if initial==1:
           from numpy import *
           ni=100*random.rand(N,1)
           ni=ni-ni%1
           ru=10*random.rand(M,1)
+          
+        # Equal initial conditions
         elif initial==2:
           ni=full([N,1],10)
           ru=full([M,1],4.5)
-    
-        #ni_s=zeros([N,ite+1])
-        #ru_s=zeros([M,ite+1])
-    
-        #ni_s[:,0]=ni.transpose()
-        #ru_s[:,0]=ru.transpose()
     
         #Runge–Kutta method application 
         for i in range(ite):
@@ -139,70 +117,29 @@ for z in range(9):
     
           t+=h
           ni=ni_v
-          #ni=around(ni,decimals=2)     #Round the population array
-          #ni=ni-ni%1                   #Truncate the population array
           ru=ru_v
-    
-          #ni_s[:,i+1]=ni.transpose()
-          #ru_s[:,i+1]=ru.transpose()
-    
-    
-        #ni_s=around(ni_s,decimals=0)
-    
-        #ni_m = mean(ni_s, axis=0)
-        #ru_m = mean(ru_s, axis=0)
-        """
-        #This section saves the matrix, cu, ku, ni, ru and the means of ni and ru as a cvs file
-        saves_cu = pd.DataFrame(cu)
-    
-        saves_cu.to_csv('MacArthur Runge–Kutta cu '+'('+str(time)+').csv', index=False)
-        saves_ku = pd.DataFrame(ku)
-        saves_ku.to_csv('MacArthur Runge–Kutta ku '+'('+str(time)+').csv', index=False)
-    
-        saves_ni = pd.DataFrame(ni_s).transpose()
-        saves_ni.to_csv('MacArthur Runge–Kutta ni '+'('+str(time)+').csv', index=False)
-    
-        saves_ru = pd.DataFrame(ru_s).transpose()
-        saves_ru.to_csv('MacArthur Runge–Kutta ru '+'('+str(time)+').csv', index=False)
-    
-        saves_ni_m = pd.DataFrame(ni_m)
-        saves_ni_m.to_csv('MacArthur Runge–Kutta ni_mean '+'('+str(time)+').csv', index=False)
-        saves_ru_m = pd.DataFrame(ru_m)
-        saves_ru_m.to_csv('MacArthur Runge–Kutta ru_mean '+'('+str(time)+').csv', index=False)
-    
-        #Plot the mean of population and resources
-        fig, axs = plt.subplots(1, 2)
-        axs[0].plot(ti, ni_m)
-        axs[0].set_title("Population average")
-        axs[0].set_xlabel('Time [days]')
-        axs[0].set_ylabel('Mean population')
-        axs[1].plot(ti, ru_m)
-        axs[1].set_title("Resources average")
-        axs[1].set_xlabel('Time [days]')
-        axs[1].set_ylabel('Mean resources')
-    
-        fig.tight_layout()
-        """
-        posArrCount1=0
+       
+        posArrCount1=0  # This variable count the survivor species
+        
         for i in range(len(ni[:,0])):
           if (ni[i,0] >= 1/10000):
             posArrCount1 = posArrCount1 + 1
     
-        posArrCount2=0
+        posArrCount2=0  # This variable count the survivor resources
         for i in range(len(ru[:,    0])):
           if (ru[i,0] >= 1/10000):
             posArrCount2 = posArrCount2 + 1
     
-        phi_s[j]=posArrCount1/N
-        psi_s[j]=posArrCount2/M
-        n_prom[j]=mean(ni[:,0])
-        n_total[j]=sum(ni[:,0])
-        n_pob[:,j]=ni[:,0]
+        phi_s[j]   = posArrCount1/N # Fraction of survivor species 
+        psi_s[j]   = posArrCount2/M # Fraction of survivor resources
+        n_prom[j]  = mean(ni[:,0])
+        n_total[j] = sum(ni[:,0])
+        n_pob[:,j] = ni[:,0]
         os.system(var)
         print('Iteración:'+str(j))    
     
     
-    
+        #This section save the fraction of survivor species and resources and final populations
         saves_ni = pd.DataFrame(phi_s) 
         saves_ni.to_csv('MacArthur Runge–Kutta phi_s '+'m 1;a 1;c '+str(c)+';s_c^2 '+str(s_c*s_c)+';k '+str(k)+';s_k '+str(s_k)+';v '+str(v)+';N '+str(N)+'.csv', index=False)
         saves_ni =   pd.DataFrame(psi_s) 
