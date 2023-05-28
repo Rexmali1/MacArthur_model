@@ -19,21 +19,19 @@ from datetime import datetime
 #print('\n'.join([''.join(['{:4}'.format(item) for item in row]) for row in M])) print a matrix M 
 
 
-def Assign_values_Gauss(M,mu, sigma): #This function assigns values to all elements of an matrix
-                                    #with random values with mean mu and deviation standard sigma
+def Assign_values_Gauss(M,mu, sigma): # This function assigns values to all elements of an matrix
+                                      # with random values with mean mu and deviation standard sigma
   for i in range(len(M[0])):
     for j in range(len(M)):
-      n=gauss(mu, sigma)
-      #while n<0:
-        #n=gauss(mu, sigma)    
+      n=gauss(mu, sigma) 
       M[j,i]=n
   return M
   
-def gi(ni,ru,mi,cu,t):
+def gi(ni,ru,mi,cu,t):  #This function returns (dni / dt) / ni
   git=cu.dot(ru)-mi
   return git
   
-def gu(ni,ru,au,ku,ci,t):
+def gu(ni,ru,au,ku,ci,t):  #This function returns (dru / dt) / ni
   gut=au*(ku-ru)-ci.dot(ni)
   return gut
   
@@ -59,8 +57,8 @@ Assign_values_Gauss(ku, k, s_k)
 #Time parameters simulation
 h    = 0.001                        #Size of the intervalue to evaluate
 tsim = 100                          #time of simulation on days
-ite  = int(tsim/h)                  #
-ti   = linspace(0, tsim, num=ite+1) #
+ite  = int(tsim/h)                  #Number of iterations
+ti   = linspace(0, tsim, num=ite+1) #Array of times
 
 initial=int(input("Introduce a validate case: \n1) Random initial conditions \n2) Equal initial conditions \n"))
 print("\n")
@@ -68,11 +66,14 @@ while initial!=1 and initial!=2:
   initial=int(input("Invalidate case, please introduce a validate case: \n  1) Random initial conditions \n2) Equal initial conditions \n"))
   print("\n")
 
+#Random initial conditions
 if initial==1:
   from numpy import *
   ni=100*random.rand(N,1)
   ni=ni-ni%1
   ru=10*random.rand(M,1)
+
+#Equal initial conditions
 elif initial==2:
   ni=full([N,1],10)
   ru=full([M,1],3)
@@ -113,6 +114,7 @@ saves_ru = pd.DataFrame(ru_s).transpose()
 saves_ru.to_csv('MacArthur Euler ru '+'('+str(time)+').csv', index=False)
 """
 
+#This section saves the matrix ni and ru as a cvs file
 saves_ni_m = pd.DataFrame(ni_m)
 saves_ni_m.to_csv('MacArthur Euler ni_mean '+'('+str(time)+').csv', index=False)
 saves_ru_m = pd.DataFrame(ru_m)
