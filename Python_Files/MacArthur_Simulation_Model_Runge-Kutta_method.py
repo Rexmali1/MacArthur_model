@@ -39,21 +39,6 @@ def fu(ni,ru,au,ku,ci,t):
   fut = fut*ru
   return fut
 
-""" 
-#Set the number of species N and the number of resources M
-N=int(input ("Introduce the number of species that you want to Simulate: "))
-M=int(input("Introduce the number of resources implicated: "))
-print("\n")
-
-c=float(input("Please introduce the parameters c (c/N is the mean of the coficients c[i][u]): "))
-s_c=float(input("Please introduce the parameters s_c ((s_c)^2/N is the variance of the coficients c[i][u]): "))
-print("\n")
-
-k=float(input("Please introduce the parameters k (k is the mean of the coficients k[u]): "))
-s_k=float(input("Please introduce the parameters s_k ((s_k)^2 is the variance of the coficients k[u]): "))
-print("\n")
-"""
-
 #Set the number of species N and the number of resources M, an the heterogenity values
 v=0.2
 N=int(1)
@@ -73,28 +58,29 @@ Assign_values_Gauss(cu, c/N, s_c/sqrt(N))
 ci=cu.transpose() 
 Assign_values_Gauss(ku, k, s_k)
 
-"""
-Assign_values_Gauss(mi, m, s_m)
-saves_mi = pd.DataFrame(ku)
-saves_mi.to_csv('MacArthur Runge–Kutta mi '+'('+str(time)+').csv', index=False)
-"""
 
-h=0.0015 #Size of the intervalue to evaluate
-tsim=400 #time of simulation on days
-ite=int(tsim/h)
-ti=linspace(0, tsim, num=ite+1)
+#Time simulation parameters
+h    = 0.0015                      #Size of the intervalue to evaluate
+tsim = 400                         #Time of simulation on days
+ite  = int(tsim/h)                 #Number total of iterations 
+ti   = linspace(0,tsim,num=ite+1)  #Array of times in the simulation
 
+#Define the type of initial conditions
 initial=int(input("Introduce a validate case: \n1) Random initial conditions \n2) Equal initial conditions \n"))
 print("\n")
+
 while initial!=1 and initial!=2:
   initial=int(input("Invalidate case, please introduce a validate case: \n1) Random initial conditions \n2) Equal initial conditions \n"))
   print("\n")
 
+#Random initial conditions
 if initial==1:
   from numpy import *
   ni=100*random.rand(N,1)
   ni=ni-ni%1
   ru=10*random.rand(M,1)
+  
+#Equal initial conditions
 elif initial==2:
   ni=full([N,1],10)
   ru=full([M,1],4.5)
@@ -125,8 +111,6 @@ for i in range(ite):
     
   t+=h
   ni=ni_v
-  #ni=around(ni,decimals=2)     #Round the population array
-  #ni=ni-ni%1                   #Truncate the population array
   ru=ru_v
 
   ni_s[:,i+1]=ni.transpose()
@@ -137,6 +121,7 @@ for i in range(ite):
 
 ni_m = mean(ni_s, axis=0)
 ru_m = mean(ru_s, axis=0)
+
 """
 #This section saves the matrix, cu, ku, ni, ru and the means of ni and ru as a cvs file
 saves_cu = pd.DataFrame(cu)
