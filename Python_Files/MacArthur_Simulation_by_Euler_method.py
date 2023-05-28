@@ -36,16 +36,16 @@ def gu(ni,ru,au,ku,ci,t):  #This function returns (dru / dt) / ni
   return gut
   
 #Set the number of species N and the number of resources M, an the heterogenity values
-v   = 0.22
-N   = int(100)
-M   = int(N/v)
-c   = 1
-s_c = 1
-k   = 5
-s_k = 0
+v   = 0.22      # Fraction between species and resources
+N   = int(100)  # Number of species
+M   = int(N/v)  # Number of species
+c   = 1         # Mean of relationship between species and resources
+s_c = 1         # Standar desviation of relationship between species and resources
+k   = 5         # Mean of carrying capacity of resources 
+s_k = 0         # Standar desviation of carrying capacity of resources
 time = datetime.now().strftime('%d-%m-%Y, %H;%M;%S')
-
-au  = 1
+                
+au  = 1         # Growing rate of resources
 ku  = zeros([M,1])
 cu  = zeros([N,M])
 mi  = ones([N,1])
