@@ -28,58 +28,39 @@ def Assign_values_Gauss(M,mu, sigma): #This function assigns values to all eleme
         #n=gauss(mu, sigma)    
       M[j,i]=n
   return M
- 
+  
 def gi(ni,ru,mi,cu,t):
   git=cu.dot(ru)-mi
   return git
-
+  
 def gu(ni,ru,au,ku,ci,t):
   gut=au*(ku-ru)-ci.dot(ni)
   return gut
-
-""" 
-#Set the number of species N and the number of resources M
-N=int(input ("Introduce the number of species that you want to Simulate: "))
-M=int(input("Introduce the number of resources implicated: "))
-print("\n")
-
-c=float(input("Please introduce the parameters c (c/N is the mean of the coficients c[i][u]): "))
-s_c=float(input("Please introduce the parameters s_c((s_c)^2/N is the variance of the coficients c[i][u]): "))
-print("\n")
-
-k=float(input("Please introduce the parameters k (k is the mean of the coficients k[u]): "))
-s_k=float(input("Please introduce the parameters s_k ((s_k)^2 is the variance of the coficients k[u]): "))
-print("\n")
-"""
+  
 #Set the number of species N and the number of resources M, an the heterogenity values
-v=0.22
-N=int(100)
-M=int(N/v)
-c=1
-s_c=1
-k=5
-s_k=0
+v   = 0.22
+N   = int(100)
+M   = int(N/v)
+c   = 1
+s_c = 1
+k   = 5
+s_k = 0
 time = datetime.now().strftime('%d-%m-%Y, %H;%M;%S')
 
-au=1
-ku=zeros([M,1])
-cu=zeros([N,M])
-mi=ones([N,1])
+au  = 1
+ku  = zeros([M,1])
+cu  = zeros([N,M])
+mi  = ones([N,1])
 
 Assign_values_Gauss(cu, c/N, s_c/sqrt(N))
 ci=cu.transpose() 
 Assign_values_Gauss(ku, k, s_k)
 
-"""
-Assign_values_Gauss(mi, m, s_m)
-saves_mi = pd.DataFrame(ku)
-saves_mi.to_csv('MacArthu Euler mi '+'('+str(time)+').csv', index=False)
-"""
-
-h=0.001 #Size of the intervalue to evaluate
-tsim=100 #time of simulation on days
-ite=int(tsim/h)
-ti=linspace(0, tsim, num=ite+1)
+#Time parameters simulation
+h    = 0.001                        #Size of the intervalue to evaluate
+tsim = 100                          #time of simulation on days
+ite  = int(tsim/h)                  #
+ti   = linspace(0, tsim, num=ite+1) #
 
 initial=int(input("Introduce a validate case: \n1) Random initial conditions \n2) Equal initial conditions \n"))
 print("\n")
@@ -111,17 +92,14 @@ for i in range(ite):
   ru_v=ru+h*gu(ni,ru,au,ku,ci,t)*ru #Euler method application 
   t+=h
   ni=ni_v
-  #ni=around(ni,decimals=2)     #Round the population array
-  #ni=ni-ni%1                   #Truncate the population array
   ru=ru_v
   ni_s[:,i+1]=ni.transpose()
   ru_s[:,i+1]=ru.transpose()
 
 
-#ni_s=around(ni_s,decimals=0)
-
 ni_m = mean(ni_s, axis=0)
 ru_m = mean(ru_s, axis=0)
+
 """
 #This section saves the matrix, cu, ku, ni, ru and the means of ni and ru as a cvs file
 saves_cu = pd.DataFrame(cu)
