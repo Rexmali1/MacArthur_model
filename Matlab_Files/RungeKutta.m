@@ -1,24 +1,24 @@
 for caty = 0.4:0.1:0.6
-    %Establish pa   rameters for the simulation
-    v   = caty;
-    N   = 500;
-    M   = uint16(N/v);
-    c   = 1.0;
-    s_c = sqrt(0.1);
-    k   = 20.0;
-    s_k = 0.0;
-    m   = 1.0;
-    au  = 1.0;
-    rep = 20;
+    % Establish parameters for the simulation
+    v   = caty;          % Fraction between species and resources 
+    N   = 500;           % Number of species 
+    M   = uint16(N/v);   % Number of resources 
+    c   = 1.0;           % Mean of relationship between species and and resources 
+    s_c = sqrt(0.1);     % Standar desviation of relationship between species and and resources 
+    k   = 20.0;          % Mean of carrying capacity of resources
+    s_k = 0.0;           % Standar desviation of carrying capacity of resources
+    m   = 1.0;           % Death rate of species
+    au  = 1.0;           % Growth rate of resources 
+    rep = 20;            % Number of independient runs
     
     %Establish  parameters for time
-    tsim = 500;
-    h    = 0.001;
-    ite  = tsim/h;
+    tsim = 500;    % Maixmum time of simulation
+    h    = 0.001;  % Time step
+    ite  = tsim/h; % Number of iterations 
     
-    phi1  = zeros([rep,1],"double");
-    psi1  = zeros([rep,1],"double");
-    n_pob = zeros([N,rep],"double");
+    phi1  = zeros([rep,1],"double");   % Fraction of survivor species
+    psi1  = zeros([rep,1],"double");   % Fraction of survivor resources
+    n_pob = zeros([N,rep],"double");   % Final population size
        
     for j=1:rep  
         %Declarate Necesary Matrix's
@@ -36,6 +36,8 @@ for caty = 0.4:0.1:0.6
         ci   = cu.';
         
         t    = 0.0;
+        
+        % Application of Runge-Kutta method
         for i = 1:ite
             k1i = fi(ni,ru,mi,cu,t);
             k2i = fi(ni+h*k1i/2,ru,mi,cu,t+h/2);
@@ -80,12 +82,12 @@ for caty = 0.4:0.1:0.6
      end
 end
 
-function fit = fi(ni, ru, mi, cu, ~)
+function fit = fi(ni, ru, mi, cu, ~)  % This function returns the temporal derivate of population size
     fit = cu*ru-mi;
     fit = fit.*ni;
 end
 
-function fut = fu(ni, ru, ku, ci, au, ~)
+function fut = fu(ni, ru, ku, ci, au, ~) % This function returns the temporal derivate of resources levels
     fut = au*(ku-ru)-ci*ni;
     fut = fut.*ru;
 end
