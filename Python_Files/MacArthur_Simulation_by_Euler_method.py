@@ -19,19 +19,28 @@ from datetime import datetime
 #print('\n'.join([''.join(['{:4}'.format(item) for item in row]) for row in M])) print a matrix M 
 
 
-def Assign_values_Gauss(M,mu, sigma): # This function assigns values to all elements of an matrix
-                                      # with random values with mean mu and deviation standard sigma
+def Assign_values_Gauss(M,mu, sigma): 
+  """
+  This function assigns values to all elements of an matrix
+  with random values with mean mu and deviation standard sigma
+  """
   for i in range(len(M[0])):
     for j in range(len(M)):
       n=gauss(mu, sigma) 
       M[j,i]=n
   return M
   
-def gi(ni,ru,mi,cu,t):  #This function returns (dni / dt) / ni
+def gi(ni,ru,mi,cu,t):  
+  """
+  This function returns (dni / dt) / ni
+  """
   git=cu.dot(ru)-mi
   return git
   
-def gu(ni,ru,au,ku,ci,t):  #This function returns (dru / dt) / ni
+def gu(ni,ru,au,ku,ci,t):  
+  """
+  This function returns (dru / dt) / ni
+  """
   gut=au*(ku-ru)-ci.dot(ni)
   return gut
   
@@ -87,10 +96,10 @@ ni_s[:,0]=ni.transpose()
 ru_s[:,0]=ru.transpose()
 
 
+#Euler method application 
 for i in range(ite):
-      
-  ni_v=ni+h*gi(ni,ru,mi,cu,t)*ni    #Euler method application 
-  ru_v=ru+h*gu(ni,ru,au,ku,ci,t)*ru #Euler method application 
+  ni_v=ni+h*gi(ni,ru,mi,cu,t)*ni    
+  ru_v=ru+h*gu(ni,ru,au,ku,ci,t)*ru 
   t+=h
   ni=ni_v
   ru=ru_v
