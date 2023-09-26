@@ -97,7 +97,7 @@ double** Transpose(double** M1, int row, int col)
     return arr;
 }
 
-// Function to initialize and returning array in a uniform distribution
+// Function calulate the slope of a population size
 double** fi(double** ni, double** Ki, double** ru, double** mi, double** cu,
             double t, double fac, int N, int M)
 {
@@ -129,7 +129,7 @@ double** fi(double** ni, double** Ki, double** ru, double** mi, double** cu,
     return arr;
 }
 
-// Function to initialize and returning array in a uniform distribution
+// Function calulate the slope of a resource levels
 double** fu(double** ni, double** ru, double** Ku, double** ku, double** ci,
             double au, double t, double fac, int N, int M)
 {
@@ -186,14 +186,14 @@ int main()
     h    = 0.001;        // Time step size
     ite  = tsim/h;       // Number of iterations
 
-
+    //Initialize matrix's
     double** ru;  double** ku;
     double** ni;  double** mi;
     double** cu;  double** ci;
     double** k1i; double** k2i;   double** k3i; double** k4i;
     double** k1u; double** k2u;   double** k3u; double** k4u;
 
-
+    //Assign random distributions to matrix
     ru   = Random(0, k, M, 1);
     ku   = Gaussian(k,s_k,M,1);
 
@@ -204,6 +204,7 @@ int main()
     ci   = Transpose(cu,N,M);
 
 
+    //Apply the Runge-Kutta method
     for(int i=0; i<ite; ++i)
     {
         k1i = fi(ni, ni, ru, mi, cu, t, 0, N, M);
