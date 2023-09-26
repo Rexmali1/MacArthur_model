@@ -25,19 +25,28 @@ elif os.name == "ce" or os.name == "nt" or os.name == "dos":
 #print('\n'.join([''.join(['{:4}'.format(item) for item in row]) for row in M])) print a matrix M 
 
 
-def Assign_values_Gauss(M,mu, sigma): # This function assigns values to all elements of an matrix
-                                      # with random values with mean mu and deviation standard sigma
+def Assign_values_Gauss(M,mu, sigma): 
+ """
+ This function assigns values to all elements of an matrix
+ with random values with mean mu and deviation standard sigma
+ """
   for i in range(len(M[0])):
     for j in range(len(M)):
       M[j,i]=gauss(mu, sigma)
   return M
  
-def fi(ni,ru,mi,cu,t):      # This function return the time derivative of size population
+def fi(ni,ru,mi,cu,t):      
+ """
+ This function return the time derivative of size population
+ """
   fit = cu.dot(ru)-1        
   fit = fit*ni              
   return fit                
                             
-def fu(ni,ru,au,ku,ci,t):   # This function return the time derivative of resources levels
+def fu(ni,ru,au,ku,ci,t):   
+ """
+ This function return the time derivative of resources levels
+ """
   fut = (ku-ru)-ci.dot(ni)
   fut = fut*ru
   return fut
@@ -145,4 +154,4 @@ for z in range(9):
         saves_ni =   pd.DataFrame(psi_s) 
         saves_ni.to_csv('MacArthur Runge–Kutta psi_s '+'m 1;a 1;c '+str(c)+';s_c^2 '+str(s_c*s_c)+';k '+str(k)+';s_k '+str(s_k)+';v '+str(v)+';N '+str(N)+'.csv', index=False)
         saves_ni =   pd.DataFrame(n_pob) 
-        saves_ni.to_csv('MacArthur Runge–Kutta n_pob '+'m 1;a 1;c '+str(c)+';s_c^2 '+str(s_c*s_c)+';k '+str(k)+';s_k '+str(s_k)+';v '+str(v)+';N '+str(N)+'   .csv', index=False)
+        saves_ni.to_csv('MacArthur Runge–Kutta n_pob '+'m 1;a 1;c '+str(c)+';s_c^2 '+str(s_c*s_c)+';k '+str(k)+';s_k '+str(s_k)+';v '+str(v)+';N '+str(N)+'.csv', index=False)
