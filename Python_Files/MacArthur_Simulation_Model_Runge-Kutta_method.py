@@ -19,8 +19,11 @@ from datetime import datetime
 #print('\n'.join([''.join(['{:4}'.format(item) for item in row]) for row in M])) print a matrix M 
 
 
-def Assign_values_Gauss(M,mu, sigma): # This function assigns values to all elements of an matrix
-                                      # with random values with mean mu and deviation standard sigma
+def Assign_values_Gauss(M,mu, sigma): 
+  """
+  This function assigns values to all elements of an matrix
+  with random values with mean mu and deviation standard sigma
+  """
   for i in range(len(M[0])):
     for j in range(len(M)):
       n=gauss(mu, sigma)
@@ -29,13 +32,19 @@ def Assign_values_Gauss(M,mu, sigma): # This function assigns values to all elem
       M[j,i]=n
   return M
  
-def fi(ni,ru,mi,cu,t):        #This function return the time derivative of size population
+def fi(ni,ru,mi,cu,t):     
+  """
+  This function return the time derivative of size population
+  """
   fit = cu.dot(ru)-mi
   fit = fit*ni
   return fit
 
 def fu(ni,ru,au,ku,ci,t):
-  fut = au*(ku-ru)-ci.dot(ni) #This function return the time derivative of resources levels
+  """
+  This function return the time derivative of resources levels
+  """
+  fut = au*(ku-ru)-ci.dot(ni) 
   fut = fut*ru
   return fut
 
