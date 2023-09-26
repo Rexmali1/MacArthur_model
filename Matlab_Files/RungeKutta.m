@@ -1,4 +1,4 @@
-for caty = 0.4:0.1:0.6
+for caty = 0.1:0.1:1.0
     % Establish parameters for the simulation
     v   = caty;          % Fraction between species and resources 
     N   = 500;           % Number of species 
@@ -22,15 +22,20 @@ for caty = 0.4:0.1:0.6
        
     for j=1:rep  
         %Declarate Necesary Matrix's
-        ru   = ones([M,1],"double")*2.0;
+        ru   = ones([M,1],"double")*2.0;  %Resource label vector
         ru_v = zeros([M,1],"double");
-        ni   = ones([N,1],"double")*10.0;
+        ni   = ones([N,1],"double")*10.0; %Population size vector
         ni_v = zeros([N,1],"double");
         mi   = ones([N,1],"double")*m;
+        
+        %Runge-Kutta intermediate coefficients
         k1i  = zeros([N,1],"double"); k2i = zeros([N,1],"double"); k3i = zeros([N,1],"double"); k4i = zeros([N,1],"double");
         k1u  = zeros([M,1],"double"); k2u = zeros([M,1],"double"); k3u = zeros([M,1],"double"); k4u = zeros([M,1],"double");
+
         
         %rng('default') % For reproducibility
+
+        %Create matrix with Gaussian distribution
         ku   = normrnd(k,s_k,[M,1]);
         cu   = normrnd(c/N,s_c/sqrt(N),[N,M]);
         ci   = cu.';
